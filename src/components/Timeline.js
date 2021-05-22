@@ -20,7 +20,7 @@ import {
   Suspense,
 } from 'react';
 import ReactDOM from 'react-dom';
-import {FastForward, Play as Play, Pause as Pause} from 'react-feather';
+import {FastForward, SkipForward, Play as Play, Pause as Pause} from 'react-feather';
 import {useTranslation} from 'react-i18next';
 import {useTransition, animated} from 'react-spring';
 import {useClickAway, useKeyPressEvent} from 'react-use';
@@ -125,6 +125,14 @@ function Timeline({date, setDate, dates, isTimelineMode, setIsTimelineMode}) {
     setPlay(!play);
   });
 
+  const handleSkipBackward = () => {
+    if (slider) slider.prev();
+  };
+
+  const handleSkipForward = () => {
+    if (slider) slider.next();
+  };
+
   const handleClick = (index) => {
     if (index === sliderState?.absoluteSlide) {
       setShowCalendar(!showCalendar);
@@ -206,10 +214,22 @@ function Timeline({date, setDate, dates, isTimelineMode, setIsTimelineMode}) {
             <FastForward />
           </div>
           <div
+            className={'wheel-button left'}
+            onClick={handleSkipBackward.bind(this)}
+          >
+            <SkipForward />
+          </div>
+          <div
             className={classnames('wheel-button', {active: play})}
             onClick={setPlay.bind(this, !play)}
           >
             {play ? <Pause /> : <Play />}
+          </div>
+          <div
+            className="wheel-button"
+            onClick={handleSkipForward.bind(this)}
+          >
+            <SkipForward />
           </div>
           <div
             className="wheel-button"
